@@ -361,4 +361,33 @@ end)
 
 local MinimizeState = {
     Minimized = false,
-    NormalSize = UDim2.new(0, 220
+    NormalSize = UDim2.new(0, 220, 0, 110),
+    MinimizedSize = UDim2.new(0, 220, 0, 30)
+}
+
+MinimizeButton.MouseButton1Click:Connect(function()
+    if MinimizeState.Minimized then
+        MainFrame.Size = MinimizeState.NormalSize
+        MinimizeButton.Text = "-"
+        MinimizeState.Minimized = false
+    else
+        MainFrame.Size = MinimizeState.MinimizedSize
+        MinimizeButton.Text = "+"
+        MinimizeState.Minimized = true
+    end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function(NewCharacter)
+    Character = NewCharacter
+    Humanoid = Character:WaitForChild("Humanoid")
+    RootPart = Character:WaitForChild("HumanoidRootPart")
+    DisableFly()
+    ToggleButton.Text = "Fly: OFF"
+    ToggleButton.TextColor3 = Color3.fromRGB(255, 60, 60)
+end)
+
+ScreenGui.AncestryChanged:Connect(function()
+    if not ScreenGui.Parent then
+        DisableFly()
+    end
+end)
